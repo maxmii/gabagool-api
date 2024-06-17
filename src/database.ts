@@ -2,9 +2,7 @@ import mongoose, { ConnectOptions } from 'mongoose';
 
 const DBString: string | undefined = process.env.MONGODB_URI;
 
-if (DBString === undefined) {
-  throw new Error('No connection string has been set');
-}
+if (DBString === undefined) throw new Error('No connection string has been set');}
 
 //Connect to MongoDB Database
 mongoose.connect(DBString, {

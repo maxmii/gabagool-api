@@ -1,14 +1,16 @@
 import mongoose, { ConnectOptions } from 'mongoose';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const DBString: string | undefined = process.env.MONGODB_URI;
 
-if (DBString === undefined) throw new Error('No connection string has been set');}
+if (DBString === undefined)
+  throw new Error('No connection string has been set');
 
 //Connect to MongoDB Database
 mongoose.connect(DBString, {
-  useCreateIndex: true,
   useNewUrlParser: true,
-  useFindAndModify: false,
   useUnifiedTopology: true,
 } as ConnectOptions);
 

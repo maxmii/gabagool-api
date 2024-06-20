@@ -9,10 +9,7 @@ if (DBString === undefined)
   throw new Error('No connection string has been set');
 
 //Connect to MongoDB Database
-mongoose.connect(DBString, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-} as ConnectOptions);
+mongoose.connect(DBString);
 
 const database = mongoose.connection;
 

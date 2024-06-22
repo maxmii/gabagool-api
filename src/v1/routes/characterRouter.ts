@@ -1,76 +1,56 @@
 import express, { Request, Response } from 'express';
 
-import CharacterModel from '@models/characterModel';
+import CharacterController from '../../controllers/characterController';
 
 const router = express.Router();
 
-// Post API
-router.post('/character', async (req: Request, res: Response) => {
-  const data = new CharacterModel({
-    firstName: req.body.firstName,
-    surname: req.body.surname,
-    age: req.body.age
-  });
+// Creates a new character
+// @route POST /api/characters
+// @description Adds a new character to the database
+// @param req.body - The character details
+// @returns {Object} - The created character object on success
+router.post(
+  '/',
+  async (req: Request, res: Response) =>
+    await CharacterController.createANewCharacter(req, res)
+);
 
-  try {
-    const savedData = await data.save();
-    res.status(201).json(savedData);
-  } catch (error: unknown) {
-    if (error instanceof Error)
-      res.status(400).json({ message: error.message });
-  }
+// Retrieves all characters
+// @route GET /api/characters
+// @description Fetches all characters from the database
+// @returns {Array} - An array of character objects
+router.get(
+  '/',
+  async (req: Request, res: Response) =>
+    await CharacterController.getAllCharacters(req, res)
+);
+
+// Retrieves a single character by ID
+// @route GET /api/characters/:id
+// @description Fetches a character by its ID from the database
+// @param req.params.id - The ID of the character to retrieve
+// @returns {Object} - The requested character object on success
+router.get('/:id', async (req: Request, res: Response) => {
+  await CharacterController.getCharacterById(req, res);
 });
 
-// Get All Characters
-router.get('/characters', async (req: Request, res: Response) => {
-  try {
-    const data = await CharacterModel.find();
-    res.status(200).json(data);
-  } catch (error: unknown) {
-    if (error instanceof Error)
-      res.status(500).json({ message: error.message });
-  }
+// Updates a character by ID
+// @route PATCH /api/characters/:id
+// @description Updates the details of an existing character
+// @param req.params.id - The ID of the character to update
+// @param req.body - The character details to update
+// @returns {Object} - The updated character object on success
+router.patch('/:id', async (req: Request, res: Response) => {
+  await CharacterController.updateCharacter(req, res);
 });
 
-// Get Character by ID
-router.get('/character/:id', async (req: Request, res: Response) => {
-  try {
-    const data = await CharacterModel.findById(req.params.id);
-    res.json(data);
-  } catch (error: unknown) {
-    if (error instanceof Error)
-      res.status(500).json({ message: error.message });
-  }
-});
-
-// Update character by ID
-router.patch('/character/:id', async (req: Request, res: Response) => {
-  try {
-    const id = req.params.id;
-    const updatedData = req.body;
-    const options = { new: true };
-    const result = await CharacterModel.findByIdAndUpdate(
-      id,
-      updatedData,
-      options
-    );
-
-    res.status(204).send(result);
-  } catch (error: unknown) {
-    if (error instanceof Error)
-      res.status(500).json({ message: error.message });
-  }
-});
-
-router.delete('/character/:id', async (req: Request, res: Response) => {
-  try {
-    const id = req.params.id;
-    const data = await CharacterModel.findByIdAndDelete(id);
-    res.send(`${data?.firstName} ${data?.surname} has been removed`);
-  } catch (error: unknown) {
-    if (error instanceof Error)
-      res.status(500).json({ message: error.message });
-  }
+// Deletes a character by ID
+// @route DELETE /api/characters/:id
+// @description Removes a character from the database by its ID
+// @param req.params.id - The ID of the character to delete
+// @returns {Object} - A success message on successful deletion
+router.delete('/:id', async (req: Request, res: Response) => {
+  await CharacterController.deleteCharacter(req, res);
 });
 
 export const characterRouter = router;

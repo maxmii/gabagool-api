@@ -1,0 +1,23 @@
+services:
+  mongoDB:
+    image: mongo
+    restart: always
+    container_name: mongoDB
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
+    volumes:
+      - ./db_data/:/data/db/
+    networks:
+      - mongo-net
+    healthcheck: # Ensure MongoDB is ready before other services connect
+      test: ['CMD', 'mongo', '--eval', "db.runCommand('ping').ok"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+networks:
+  mongo-net:
+    driver: bridge

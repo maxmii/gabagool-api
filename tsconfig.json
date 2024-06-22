@@ -16,6 +16,9 @@
       "@services/*": [
         "services/*"
       ],
+      "@controllers/*": [
+        "controllers/*"
+      ],
     },
     "outDir": "./build",
     "esModuleInterop": true,

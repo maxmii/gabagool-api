@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import CharacterService from '../services/characterService';
+import CharacterService from '@services/characterService';
 
 class CharacterController {
   // TODO Add documentation comments for Getting all Characters

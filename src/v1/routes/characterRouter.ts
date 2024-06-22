@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 
-import CharacterController from '../../controllers/characterController';
+import CharacterController from '@controllers/characterController';
 
 const router = express.Router();
 

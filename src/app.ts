@@ -8,6 +8,6 @@ const app: Express = express();
 //Allow us to use json format
 app.use(express.json());
 
-app.use('/api', characterRouter);
+app.use('/api/v1/characters', characterRouter);
 
 export default app;
